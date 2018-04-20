@@ -1,0 +1,350 @@
+Last login: Thu Apr 19 22:11:04 on ttys000
+-bash: /usr/local/bin/virtualenvwrapper.sh: No such file or directory
+MacBook-Pro-de-Ever:~ ever$ echo $GOPATH
+
+MacBook-Pro-de-Ever:~ ever$ cd Documents/
+MacBook-Pro-de-Ever:Documents ever$ mkdir HackathononKIBots
+MacBook-Pro-de-Ever:Documents ever$ cd HackathononKIBots/
+MacBook-Pro-de-Ever:HackathononKIBots ever$ mkdir bin
+MacBook-Pro-de-Ever:HackathononKIBots ever$ mkdir pkg
+MacBook-Pro-de-Ever:HackathononKIBots ever$ mkdir src
+MacBook-Pro-de-Ever:HackathononKIBots ever$ ls
+bin	pkg	src
+MacBook-Pro-de-Ever:HackathononKIBots ever$ go
+-bash: go: command not found
+MacBook-Pro-de-Ever:HackathononKIBots ever$ echo $PATH
+/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/opt/X11/bin:/Applications/Wireshark.app/Contents/MacOS
+MacBook-Pro-de-Ever:HackathononKIBots ever$ export $PATH=/Users/ever/Documents/H 
+HackathononKIBots/ Hearts2.tif        
+MacBook-Pro-de-Ever:HackathononKIBots ever$ export $PATH=$PATH:/usr/local/go/bin
+-bash: export: `/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/opt/X11/bin:/Applications/Wireshark.app/Contents/MacOS=/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/opt/X11/bin:/Applications/Wireshark.app/Contents/MacOS:/usr/local/go/bin': not a valid identifier
+MacBook-Pro-de-Ever:HackathononKIBots ever$ export PATH=$PATH:/usr/local/go/bin
+MacBook-Pro-de-Ever:HackathononKIBots ever$ echo $PATH
+/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/opt/X11/bin:/Applications/Wireshark.app/Contents/MacOS:/usr/local/go/bin
+MacBook-Pro-de-Ever:HackathononKIBots ever$ go
+Go is a tool for managing Go source code.
+
+Usage:
+
+	go command [arguments]
+
+The commands are:
+
+	build       compile packages and dependencies
+	clean       remove object files and cached files
+	doc         show documentation for package or symbol
+	env         print Go environment information
+	bug         start a bug report
+	fix         update packages to use new APIs
+	fmt         gofmt (reformat) package sources
+	generate    generate Go files by processing source
+	get         download and install packages and dependencies
+	install     compile and install packages and dependencies
+	list        list packages
+	run         compile and run Go program
+	test        test packages
+	tool        run specified go tool
+	version     print Go version
+	vet         report likely mistakes in packages
+
+Use "go help [command]" for more information about a command.
+
+Additional help topics:
+
+	c           calling between Go and C
+	buildmode   build modes
+	cache       build and test caching
+	filetype    file types
+	gopath      GOPATH environment variable
+	environment environment variables
+	importpath  import path syntax
+	packages    package lists
+	testflag    testing flags
+	testfunc    testing functions
+
+Use "go help [topic]" for more information about that topic.
+
+MacBook-Pro-de-Ever:HackathononKIBots ever$ cd $HOME/
+MacBook-Pro-de-Ever:~ ever$ ls
+1lu				matlab_crash_dump.1453-1
+Applications			matlab_crash_dump.30934-1
+Desktop				matlab_crash_dump.3365-1
+Documents			matlab_crash_dump.4180-1
+Downloads			matlab_crash_dump.5664-1
+Library				matlab_crash_dump.5664-2
+Movies				matlab_crash_dump.963-1
+Music				tty.SLAB_USBtoUART
+Pictures			tty.usbserial
+Public
+MacBook-Pro-de-Ever:~ ever$ echo $GOROOT
+
+MacBook-Pro-de-Ever:~ ever$ export GOPATH=/Users/ever/Documents/HackathononKIBots/
+MacBook-Pro-de-Ever:~ ever$ cd $GOPATH 
+MacBook-Pro-de-Ever:HackathononKIBots ever$ ls
+bin	pkg	src
+MacBook-Pro-de-Ever:HackathononKIBots ever$ cd src/
+MacBook-Pro-de-Ever:src ever$ nano helloworld.go
+MacBook-Pro-de-Ever:src ever$ go helloworld.go 
+go: unknown subcommand "helloworld.go"
+Run 'go help' for usage.
+MacBook-Pro-de-Ever:src ever$ go run
+go run: no go files listed
+MacBook-Pro-de-Ever:src ever$ go install
+go install: no install location for directory /Users/ever/Documents/HackathononKIBots/src outside GOPATH
+	For more details see: 'go help gopath'
+MacBook-Pro-de-Ever:src ever$ ls
+helloworld.go
+MacBook-Pro-de-Ever:src ever$ go help gopath
+The Go path is used to resolve import statements.
+It is implemented by and documented in the go/build package.
+
+The GOPATH environment variable lists places to look for Go code.
+On Unix, the value is a colon-separated string.
+On Windows, the value is a semicolon-separated string.
+On Plan 9, the value is a list.
+
+If the environment variable is unset, GOPATH defaults
+to a subdirectory named "go" in the user's home directory
+($HOME/go on Unix, %USERPROFILE%\go on Windows),
+unless that directory holds a Go distribution.
+Run "go env GOPATH" to see the current GOPATH.
+
+See https://golang.org/wiki/SettingGOPATH to set a custom GOPATH.
+
+Each directory listed in GOPATH must have a prescribed structure:
+
+The src directory holds source code. The path below src
+determines the import path or executable name.
+
+The pkg directory holds installed package objects.
+As in the Go tree, each target operating system and
+architecture pair has its own subdirectory of pkg
+(pkg/GOOS_GOARCH).
+
+If DIR is a directory listed in the GOPATH, a package with
+source in DIR/src/foo/bar can be imported as "foo/bar" and
+has its compiled form installed to "DIR/pkg/GOOS_GOARCH/foo/bar.a".
+
+The bin directory holds compiled commands.
+Each command is named for its source directory, but only
+the final element, not the entire path. That is, the
+command with source in DIR/src/foo/quux is installed into
+DIR/bin/quux, not DIR/bin/foo/quux. The "foo/" prefix is stripped
+so that you can add DIR/bin to your PATH to get at the
+installed commands. If the GOBIN environment variable is
+set, commands are installed to the directory it names instead
+of DIR/bin. GOBIN must be an absolute path.
+
+Here's an example directory layout:
+
+    GOPATH=/home/user/go
+
+    /home/user/go/
+        src/
+            foo/
+                bar/               (go code in package bar)
+                    x.go
+                quux/              (go code in package main)
+                    y.go
+        bin/
+            quux                   (installed command)
+        pkg/
+            linux_amd64/
+                foo/
+                    bar.a          (installed package object)
+
+Go searches each directory listed in GOPATH to find source code,
+but new packages are always downloaded into the first directory
+in the list.
+
+See https://golang.org/doc/code.html for an example.
+
+Internal Directories
+
+Code in or below a directory named "internal" is importable only
+by code in the directory tree rooted at the parent of "internal".
+Here's an extended version of the directory layout above:
+
+    /home/user/go/
+        src/
+            crash/
+                bang/              (go code in package bang)
+                    b.go
+            foo/                   (go code in package foo)
+                f.go
+                bar/               (go code in package bar)
+                    x.go
+                internal/
+                    baz/           (go code in package baz)
+                        z.go
+                quux/              (go code in package main)
+                    y.go
+
+
+The code in z.go is imported as "foo/internal/baz", but that
+import statement can only appear in source files in the subtree
+rooted at foo. The source files foo/f.go, foo/bar/x.go, and
+foo/quux/y.go can all import "foo/internal/baz", but the source file
+crash/bang/b.go cannot.
+
+See https://golang.org/s/go14internal for details.
+
+Vendor Directories
+
+Go 1.6 includes support for using local copies of external dependencies
+to satisfy imports of those dependencies, often referred to as vendoring.
+
+Code below a directory named "vendor" is importable only
+by code in the directory tree rooted at the parent of "vendor",
+and only using an import path that omits the prefix up to and
+including the vendor element.
+
+Here's the example from the previous section,
+but with the "internal" directory renamed to "vendor"
+and a new foo/vendor/crash/bang directory added:
+
+    /home/user/go/
+        src/
+            crash/
+                bang/              (go code in package bang)
+                    b.go
+            foo/                   (go code in package foo)
+                f.go
+                bar/               (go code in package bar)
+                    x.go
+                vendor/
+                    crash/
+                        bang/      (go code in package bang)
+                            b.go
+                    baz/           (go code in package baz)
+                        z.go
+                quux/              (go code in package main)
+                    y.go
+
+The same visibility rules apply as for internal, but the code
+in z.go is imported as "baz", not as "foo/vendor/baz".
+
+Code in vendor directories deeper in the source tree shadows
+code in higher directories. Within the subtree rooted at foo, an import
+of "crash/bang" resolves to "foo/vendor/crash/bang", not the
+top-level "crash/bang".
+
+Code in vendor directories is not subject to import path
+checking (see 'go help importpath').
+
+When 'go get' checks out or updates a git repository, it now also
+updates submodules.
+
+Vendor directories do not affect the placement of new repositories
+being checked out for the first time by 'go get': those are always
+placed in the main GOPATH, never in a vendor subtree.
+
+See https://golang.org/s/go15vendor for details.
+MacBook-Pro-de-Ever:src ever$ ls
+helloworld.go
+MacBook-Pro-de-Ever:src ever$ mkdir helloworld
+MacBook-Pro-de-Ever:src ever$ mv helloworld.go helloworld
+helloworld/    helloworld.go  
+MacBook-Pro-de-Ever:src ever$ mv helloworld.go helloworld/helloworld.go
+MacBook-Pro-de-Ever:src ever$ cd helloworld/
+MacBook-Pro-de-Ever:helloworld ever$ go install
+MacBook-Pro-de-Ever:helloworld ever$ go helloworld.go 
+go: unknown subcommand "helloworld.go"
+Run 'go help' for usage.
+MacBook-Pro-de-Ever:helloworld ever$ go run
+go run: no go files listed
+MacBook-Pro-de-Ever:helloworld ever$ go run helloworld.go 
+hello world
+MacBook-Pro-de-Ever:helloworld ever$ go get github.com/Rhein-Neckar-Verkehr/golang-rnv-api
+MacBook-Pro-de-Ever:helloworld ever$ ls
+helloworld.go
+MacBook-Pro-de-Ever:helloworld ever$ cd ..
+MacBook-Pro-de-Ever:src ever$ ls
+github.com	helloworld
+MacBook-Pro-de-Ever:src ever$ cd github.com/Rhein-Neckar-Verkehr/golang-rnv-api/
+MacBook-Pro-de-Ever:golang-rnv-api ever$ ls
+LICENSE				info.go
+README.md			lines.go
+apiExample.go			maps.go
+apiParamsExample_test.go	news.go
+apiParamsValidation.go		stationMonitor.go
+apiResponseExample_test.go	stations.go
+apiUtility.go			tokenConfExample.json
+api_test.go			urls.go
+doc
+MacBook-Pro-de-Ever:golang-rnv-api ever$ export rnv_api_token=6miov9i1ml4i75p3kjo0oho6mi
+MacBook-Pro-de-Ever:golang-rnv-api ever$ go test
+# github.com/Rhein-Neckar-Verkehr/golang-rnv-api
+./api_test.go:272: Printf call has arguments but no formatting directives
+FAIL	github.com/Rhein-Neckar-Verkehr/golang-rnv-api [build failed]
+MacBook-Pro-de-Ever:golang-rnv-api ever$ cd ../../../
+github.com/ helloworld/ 
+MacBook-Pro-de-Ever:golang-rnv-api ever$ cd ../../../helloworld/
+MacBook-Pro-de-Ever:helloworld ever$ nano helloworld.go 
+MacBook-Pro-de-Ever:helloworld ever$ nano helloworld.go 
+MacBook-Pro-de-Ever:helloworld ever$ go run helloworld.go 
+helloworld.go:5:1: cannot find package "github.Rhein-Neckar-Verkehr/golang-rnv-api" in any of:
+	/usr/local/go/src/github.Rhein-Neckar-Verkehr/golang-rnv-api (from $GOROOT)
+	/Users/ever/Documents/HackathononKIBots/src/github.Rhein-Neckar-Verkehr/golang-rnv-api (from $GOPATH)
+MacBook-Pro-de-Ever:helloworld ever$ nano helloworld.go 
+MacBook-Pro-de-Ever:helloworld ever$ go run helloworld.go 
+helloworld.go:5:1: cannot find package "github/Rhein-Neckar-Verkehr/golang-rnv-api" in any of:
+	/usr/local/go/src/github/Rhein-Neckar-Verkehr/golang-rnv-api (from $GOROOT)
+	/Users/ever/Documents/HackathononKIBots/src/github/Rhein-Neckar-Verkehr/golang-rnv-api (from $GOPATH)
+MacBook-Pro-de-Ever:helloworld ever$ nano helloworld.go 
+MacBook-Pro-de-Ever:helloworld ever$ go run helloworld.go 
+package main
+	imports github/Rhein-Neckar-Verkehr/golang-rnv-api/: non-canonical import path: "github/Rhein-Neckar-Verkehr/golang-rnv-api/" should be "github/Rhein-Neckar-Verkehr/golang-rnv-api"
+MacBook-Pro-de-Ever:helloworld ever$ go run helloworld.go 
+package main
+	imports github/Rhein-Neckar-Verkehr/golang-rnv-api/: non-canonical import path: "github/Rhein-Neckar-Verkehr/golang-rnv-api/" should be "github/Rhein-Neckar-Verkehr/golang-rnv-api"
+MacBook-Pro-de-Ever:helloworld ever$ nano helloworld.go 
+MacBook-Pro-de-Ever:helloworld ever$ go run helloworld.go 
+helloworld.go:5:1: cannot find package "github/Rhein-Neckar-Verkehr/golang-rnv-api" in any of:
+	/usr/local/go/src/github/Rhein-Neckar-Verkehr/golang-rnv-api (from $GOROOT)
+	/Users/ever/Documents/HackathononKIBots/src/github/Rhein-Neckar-Verkehr/golang-rnv-api (from $GOPATH)
+MacBook-Pro-de-Ever:helloworld ever$ cd ..
+MacBook-Pro-de-Ever:src ever$ ls
+github.com	helloworld
+MacBook-Pro-de-Ever:src ever$ cd ..
+MacBook-Pro-de-Ever:HackathononKIBots ever$ ls
+bin	pkg	src
+MacBook-Pro-de-Ever:HackathononKIBots ever$ cd src/helloworld/
+MacBook-Pro-de-Ever:helloworld ever$ nano helloworld.go 
+MacBook-Pro-de-Ever:helloworld ever$ go run helloworld.go 
+# command-line-arguments
+./helloworld.go:14:2: undefined: monitor
+./helloworld.go:15:15: undefined: monitor
+./helloworld.go:18:14: undefined: monitor
+MacBook-Pro-de-Ever:helloworld ever$ nano helloworld.go 
+MacBook-Pro-de-Ever:helloworld ever$ go run helloworld.go 
+# command-line-arguments
+./helloworld.go:15:9: line declared and not used
+MacBook-Pro-de-Ever:helloworld ever$ nano helloworld.go 
+MacBook-Pro-de-Ever:helloworld ever$ go run helloworld.go 
+2018/04/20 20:25:16 http://rnv.the-agent-factory.de:8080/easygo2/api/regions/rnv/modules/stationmonitor/element?hafasID=626&mode=DEP&needPlatformDetail=true&time=null
+2018/04/20 20:25:16 <nil>
+2018/04/20 20:25:16 http://rnv.the-agent-factory.de:8080/easygo2/api/regions/rnv/modules/stationmonitor/element?hafasID=626&mode=DEP&needPlatformDetail=true&time=null
+2018/04/20 20:25:16 http://rnv.the-agent-factory.de:8080/easygo2/api/regions/rnv/modules/stationmonitor/element?hafasID=626&mode=DEP&needPlatformDetail=true&time=null
+2018/04/20 20:25:16 <nil>
+2018/04/20 20:25:16 {n/a n/a Richtung  icon_tram.png 002a4e [] [] n/a 0 0  20:25 [0xc420154000 0xc4201540e0 0xc4201541c0 0xc4201542a0 0xc420154380 0xc420154460 0xc420154540 0xc420154620 0xc420154700 0xc4201547e0]}
+&{n/a n/a Richtung  icon_tram.png 002a4e [] [] n/a 0 0  20:25 [0xc420154000 0xc4201540e0 0xc4201541c0 0xc4201542a0 0xc420154380 0xc420154460 0xc420154540 0xc420154620 0xc420154700 0xc4201547e0]}
+&{20:40+5 OK Seckenheim Rathaus Steig A KOM 10995-20402-1 454AUS 6  RNV046_RNV046B 46 20 false false}
+MacBook-Pro-de-Ever:helloworld ever$ nano helloworld.go 
+MacBook-Pro-de-Ever:helloworld ever$ nano helloworld.go 
+MacBook-Pro-de-Ever:helloworld ever$ go run helloworld.go 
+2018/04/20 20:37:35 http://rnv.the-agent-factory.de:8080/easygo2/api/regions/rnv/modules/stationmonitor/element?hafasID=626&mode=DEP&needPlatformDetail=true&time=null
+2018/04/20 20:37:35 <nil>
+2018/04/20 20:37:35 http://rnv.the-agent-factory.de:8080/easygo2/api/regions/rnv/modules/stationmonitor/element?hafasID=626&mode=DEP&needPlatformDetail=true&time=null
+2018/04/20 20:37:35 http://rnv.the-agent-factory.de:8080/easygo2/api/regions/rnv/modules/stationmonitor/element?hafasID=626&mode=DEP&needPlatformDetail=true&time=null
+2018/04/20 20:37:35 <nil>
+2018/04/20 20:37:35 {n/a n/a Richtung  icon_tram.png 002a4e [] [] n/a 0 0  20:37 [0xc420190000 0xc4201900e0 0xc4201901c0 0xc4201902a0 0xc420190380 0xc420190460 0xc420190540 0xc420190620 0xc420190700 0xc4201907e0]}
+&{n/a n/a Richtung  icon_tram.png 002a4e [] [] n/a 0 0  20:37 [0xc420190000 0xc4201900e0 0xc4201901c0 0xc4201902a0 0xc420190380 0xc420190460 0xc420190540 0xc420190620 0xc420190700 0xc4201907e0]}
+&{20:40+8 OK Seckenheim Rathaus Steig A KOM 10995-20402-1 454AUS 6  RNV046_RNV046B 46 10 false false}
+MacBook-Pro-de-Ever:helloworld ever$ nano helloworld.go 
+MacBook-Pro-de-Ever:helloworld ever$ nano helloworld.go 
+MacBook-Pro-de-Ever:helloworld ever$ go run helloworld.go 
+# command-line-arguments
+./helloworld.go:16:2: line2 declared and not used
+MacBook-Pro-de-Ever:helloworld ever$ nano helloworld.go 
+MacBook-Pro-de-Ever:helloworld ever$ 
