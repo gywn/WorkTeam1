@@ -1,4 +1,4 @@
-/* global L */
+/* global L, axios */
 
 const MIN_ZOOM = 8;
 const MAX_ZOOM = 20;
@@ -23,6 +23,24 @@ const initMap = () => {
   map.addLayer(osm);
 
   map.setView(new L.LatLng(INIT_LATITUDE, INIT_LONGITUDE));
+
+  const icon = L.divIcon({ className: 'icon' });
+
+  axios.get('/datasets/haltestellen.json').then(res => {
+    const data = res.data;
+    for (const stopId in data) {
+      if (data.hasOwnProperty(stopId)) {
+        const { name, stops } = data[stopId];
+        stops.forEach(({ lat, lon }) => {
+          L.marker(new L.LatLng(lat, lon), {
+            icon: icon,
+            keyboard: false,
+            title: name
+          }).addTo(map);
+        });
+      }
+    }
+  });
 };
 
 initMap();
