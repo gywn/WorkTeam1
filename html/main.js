@@ -1,10 +1,27 @@
-/* global L, axios, cmap, d3 */
+/* global L, axios, cmap, d3, d3pie, CATEGORY_COLORS */
 
 const MIN_ZOOM = 8;
 const MAX_ZOOM = 20;
 // Hackathon location
 const INIT_LATITUDE = 49.4741797;
 const INIT_LONGITUDE = 8.4898994;
+
+const CATEGORY_NAMES = [
+  'Restaurant',
+  'Shops',
+  'Health ',
+  'Nightlife',
+  'Entertainment',
+  'Animal related',
+  'Sport',
+  'Hotel',
+  'Financial services',
+  'Public services & government',
+  'Religious organizations',
+  'Education',
+  'Transportation',
+  '18+'
+];
 
 const initMap = () => {
   const map = new L.Map('map', {
@@ -33,6 +50,63 @@ const initMap = () => {
   );
   const categoriesPromise = axios.get('../datasets/categories.json');
 
+  const pieChart = (name, l) => {
+    new d3pie('pieChart', {
+      header: {
+        title: {
+          text: name,
+          fontSize: 24,
+          font: 'sans-serif'
+        }
+      },
+      size: {
+        canvasWidth: 480,
+        pieOuterRadius: '80%'
+      },
+      data: {
+        sortOrder: 'value-desc',
+        content: l.map((v, i) => ({
+          label: CATEGORY_NAMES[i],
+          color: CATEGORY_COLORS[i],
+          value: v
+        }))
+      },
+      labels: {
+        outer: {
+          pieDistance: 10
+        },
+        inner: {
+          format: 'none',
+          hideWhenLessThanPercentage: 3
+        },
+        mainLabel: {
+          fontSize: 16
+        },
+        value: {
+          color: '#adadad',
+          fontSize: 11
+        },
+        lines: {
+          enabled: false
+        },
+        truncation: {
+          enabled: false
+        }
+      },
+      effects: {
+        load: {
+          effect: 'none'
+        }
+      },
+      misc: {
+        gradient: {
+          enabled: true,
+          percentage: 100
+        }
+      }
+    });
+  };
+
   const stopsHandler = (res, allNodes, relations) => {
     const data = res.data;
     const stopLocations = [];
@@ -54,13 +128,16 @@ const initMap = () => {
             id: id,
             title: name
           })
-            .bindPopup(name)
-            .on('click', e => {
+            .bindPopup('<div id="pieChart"></div>', { maxWidth: 480, minWidth: 480 })
+            .on('popupopen', e => {
               highlightedMarkers.forEach(m => map.removeLayer(m));
               highlightedMarkers = [];
               const nodes = relations[e.target.options.id].map(i => allNodes[i]);
-              console.log(nodes);
+              const vectors = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
               nodes.forEach(({ lat, lon, type, category }) => {
+                if (category !== undefined) {
+                  vectors[category] += 1;
+                }
                 const marker = L.marker(new L.LatLng(lat, lon), {
                   icon: icon2,
                   keyboard: false
@@ -69,6 +146,9 @@ const initMap = () => {
                   .addTo(map);
                 highlightedMarkers.push(marker);
               });
+
+              console.log(vectors);
+              setTimeout(() => pieChart(name, vectors), 500);
             })
         );
       });
