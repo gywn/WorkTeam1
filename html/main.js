@@ -28,7 +28,10 @@ const initMap = () => {
 
   const stopPromise = axios.get('../datasets/haltestellen.json');
   const allNodesPromise = axios.get('../datasets/all_nodes.json');
-  const relationPromise = axios.get('../datasets/closest_stations/establishments_closest_station.json');
+  const relationPromise = axios.get(
+    '../datasets/closest_stations/establishments_closest_station.json'
+  );
+  const categoriesPromise = axios.get('../datasets/categories.json');
 
   const stopsHandler = (res, allNodes, relations) => {
     const data = res.data;
@@ -56,12 +59,13 @@ const initMap = () => {
               highlightedMarkers.forEach(m => map.removeLayer(m));
               highlightedMarkers = [];
               const nodes = relations[e.target.options.id].map(i => allNodes[i]);
-              nodes.forEach(({ lat, lon, type, name }) => {
+              console.log(nodes);
+              nodes.forEach(({ lat, lon, type, category }) => {
                 const marker = L.marker(new L.LatLng(lat, lon), {
                   icon: icon2,
                   keyboard: false
                 })
-                  .bindPopup(`${type} ${name}`)
+                  .bindPopup(`${category} ${type}`)
                   .addTo(map);
                 highlightedMarkers.push(marker);
               });
@@ -105,8 +109,9 @@ const initMap = () => {
     return [restaurantHeatMap];
   };
 
-  Promise.all([stopPromise, allNodesPromise, relationPromise]).then(
-    ([stopRes, allNodesRes, relationRes]) => {
+  Promise.all([stopPromise, allNodesPromise, relationPromise, categoriesPromise]).then(
+    ([stopRes, allNodesRes, relationRes, categoriesRes]) => {
+      allNodesRes.data.forEach(o => (o['category'] = categoriesRes.data[o['type']]));
       const [restaurantHeatMap] = allNodesHandler(allNodesRes);
       const [stopGroup, voronoiGroup] = stopsHandler(
         stopRes,
