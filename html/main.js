@@ -1,4 +1,4 @@
-/* global L, axios */
+/* global L, axios, cmap */
 
 const MIN_ZOOM = 8;
 const MAX_ZOOM = 20;
@@ -28,12 +28,14 @@ const initMap = () => {
 
   axios.get('../datasets/haltestellen.json').then(res => {
     const data = res.data;
+    const stopLocations = [];
     for (const stopId in data) {
       if (!data.hasOwnProperty(stopId)) {
         return;
       }
       const { name, stops } = data[stopId];
       stops.forEach(({ lat, lon }) =>
+        // stopLocations.push([lat, lon, 1])
         L.marker(new L.LatLng(lat, lon), {
           icon: icon,
           keyboard: false,
@@ -41,6 +43,22 @@ const initMap = () => {
         }).addTo(map)
       );
     }
+  });
+
+  axios.get('../datasets/all_nodes.json').then(res => {
+    const data = res.data;
+
+    const restaurants = data
+      .filter(({ tags }) => tags['amenity'] === 'restaurant')
+      .map(({ lat, lon }) => [lat, lon, 1]);
+
+    const heat = L.heatLayer(restaurants, {
+      radius: 50,
+      max: 1,
+      gradient: cmap,
+      minOpacity: 0.5,
+      blur: 25
+    }).addTo(map);
   });
 };
 
