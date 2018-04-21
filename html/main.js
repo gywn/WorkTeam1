@@ -26,19 +26,20 @@ const initMap = () => {
 
   const icon = L.divIcon({ className: 'icon' });
 
-  axios.get('/datasets/haltestellen.json').then(res => {
+  axios.get('../datasets/haltestellen.json').then(res => {
     const data = res.data;
     for (const stopId in data) {
-      if (data.hasOwnProperty(stopId)) {
-        const { name, stops } = data[stopId];
-        stops.forEach(({ lat, lon }) => {
-          L.marker(new L.LatLng(lat, lon), {
-            icon: icon,
-            keyboard: false,
-            title: name
-          }).addTo(map);
-        });
+      if (!data.hasOwnProperty(stopId)) {
+        return;
       }
+      const { name, stops } = data[stopId];
+      stops.forEach(({ lat, lon }) =>
+        L.marker(new L.LatLng(lat, lon), {
+          icon: icon,
+          keyboard: false,
+          title: name
+        }).addTo(map)
+      );
     }
   });
 };
