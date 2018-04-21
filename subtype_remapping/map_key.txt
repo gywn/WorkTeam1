@@ -1,0 +1,14 @@
+1 Restaurant
+2 Shops
+3 Health 
+4 Nightlife
+5 Entertainment
+6 Animal related
+7 Sport
+8 Hotel
+9 Financial services
+10 Public services & government
+11 Religious organizations
+12 Education
+13 Transportation
+14 18+
