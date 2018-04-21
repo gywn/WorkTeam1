@@ -13,7 +13,7 @@ def main():
         'data':
         """[out:json]
         [bbox:{0},{1},{2},{3}];
-        (node[amenity];node[leisure];node[tourism];);
+        (node[amenity];node[leisure];node[tourism];node[shop]);
         out body;""".format(*BBOX)
     })
     print(response.text)
