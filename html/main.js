@@ -15,19 +15,22 @@ const initMap = () => {
     editable: true
   });
   const icon = L.divIcon({ className: 'icon' });
+  const icon2 = L.divIcon({ className: 'icon-2' });
 
   var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   var osm = new L.TileLayer(osmUrl, {
     minZoom: MIN_ZOOM,
-    maxZoom: MAX_ZOOM
+    maxZoom: MAX_ZOOM,
+    subdomains: 'c'
   });
   map.addLayer(osm);
   map.setView(new L.LatLng(INIT_LATITUDE, INIT_LONGITUDE));
 
   const stopPromise = axios.get('../datasets/haltestellen.json');
   const allNodesPromise = axios.get('../datasets/all_nodes.json');
+  const relationPromise = axios.get('../datasets/closest_stations/establishments_closest_station.json');
 
-  const stopsHandler = res => {
+  const stopsHandler = (res, allNodes, relations) => {
     const data = res.data;
     const stopLocations = [];
     const stopLayers = [];
@@ -35,7 +38,7 @@ const initMap = () => {
       if (!data.hasOwnProperty(stopId)) {
         return;
       }
-      const { name, stops } = data[stopId];
+      const { name, stops, id } = data[stopId];
       var avgLat = 0;
       var avgLng = 0;
       stops.forEach(({ lat, lon }) => {
@@ -45,8 +48,24 @@ const initMap = () => {
           L.marker(new L.LatLng(lat, lon), {
             icon: icon,
             keyboard: false,
+            id: id,
             title: name
-          }).bindPopup(name)
+          })
+            .bindPopup(name)
+            .on('click', e => {
+              highlightedMarkers.forEach(m => map.removeLayer(m));
+              highlightedMarkers = [];
+              const nodes = relations[e.target.options.id].map(i => allNodes[i]);
+              nodes.forEach(({ lat, lon, type, name }) => {
+                const marker = L.marker(new L.LatLng(lat, lon), {
+                  icon: icon2,
+                  keyboard: false
+                })
+                  .bindPopup(`${type} ${name}`)
+                  .addTo(map);
+                highlightedMarkers.push(marker);
+              });
+            })
         );
       });
       stopLocations.push([avgLat / stops.length, avgLng / stops.length]);
@@ -67,6 +86,8 @@ const initMap = () => {
     return [stopGroup, voronoiGroup];
   };
 
+  var highlightedMarkers = [];
+
   const allNodesHandler = res => {
     const data = res.data;
     const restaurants = data
@@ -79,22 +100,28 @@ const initMap = () => {
       gradient: cmap,
       minOpacity: 0.5,
       blur: 25
-    }).addTo(map);
+    });
 
     return [restaurantHeatMap];
   };
 
-  Promise.all([stopPromise, allNodesPromise]).then(([stopRes, allNodesRes]) => {
-    const [stopGroup, voronoiGroup] = stopsHandler(stopRes);
-    const [restaurantHeatMap] = allNodesHandler(allNodesRes);
-    L.control
-      .layers(null, {
-        Stops: stopGroup,
-        'Voronoi Boundaries': voronoiGroup,
-        'Heat Map': restaurantHeatMap
-      })
-      .addTo(map);
-  });
+  Promise.all([stopPromise, allNodesPromise, relationPromise]).then(
+    ([stopRes, allNodesRes, relationRes]) => {
+      const [restaurantHeatMap] = allNodesHandler(allNodesRes);
+      const [stopGroup, voronoiGroup] = stopsHandler(
+        stopRes,
+        allNodesRes.data,
+        relationRes.data
+      );
+      L.control
+        .layers(null, {
+          Stops: stopGroup,
+          'Voronoi Boundaries': voronoiGroup,
+          'Heat Map': restaurantHeatMap
+        })
+        .addTo(map);
+    }
+  );
 };
 
 initMap();

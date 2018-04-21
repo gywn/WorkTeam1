@@ -13,7 +13,8 @@ def get_nodes(node_type):
         'data':
         """[out:json]
         [bbox:{0},{1},{2},{3}];
-        node["{4}"];
+        (node["{4}"];
+        way["{4}"];);
         out body;""".format(*BBOX, node_type)
     })
     result = json.loads(response.text)
