@@ -4,10 +4,10 @@ This is the team repository for WorkTeam1 of the Hackathon [Data.KI.Bots](http:/
 
 Our team composes:
 
-- Guangyang WEN ([gywn](https://github.com/gywn))
+- Guangyang Wen ([gywn](https://github.com/gywn))
 - Everardo González ([AGLemke](https://github.com/AGLemke))
 - [Xinzi Rao](www.asia-europe.uni-heidelberg.de/en/people/person/persdetail/rao.html)
-- Arnold franck Mietchop Touko ([batiathus](https://github.com/batiathus))
+- Arnold Franck Mietchop Touko ([batiathus](https://github.com/batiathus))
 
 Demo: https://gywn.github.io/WorkTeam1/html/
 
