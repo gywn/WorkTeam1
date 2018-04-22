@@ -1,5 +1,5 @@
 import json
-import segancha
+import segancha as sgc
 import numpy as np
 
 
@@ -8,7 +8,10 @@ def f2h(color):
 
 
 def main():
-    rgb = [segancha.LABtoRGB(segancha.LCHtoLAB(segancha.maxChroma((60, 0, h)))) for h in 360 / 14 * np.arange(14)]
+    rgb = [
+        sgc.LABtoRGB(sgc.LCHtoLAB(sgc.maxChroma((60, 0, h))))
+        for h in 360 / 14 * np.arange(14)
+    ]
     h = ['#{0}{1}{2}'.format(f2h(r), f2h(g), f2h(b)) for r, g, b in rgb]
     with open('../html/category_colors.js', 'w') as f:
         f.write('const CATEGORY_COLORS = ' + json.dumps(h) + ';')
