@@ -1,6 +1,6 @@
 /* global L, axios, cmap, d3, d3pie, CATEGORY_COLORS */
 
-const MIN_ZOOM = 8;
+const MIN_ZOOM = 12;
 const MAX_ZOOM = 20;
 // Hackathon location
 const INIT_LATITUDE = 49.4741797;
@@ -142,13 +142,22 @@ const initMap = () => {
                   icon: icon2,
                   keyboard: false
                 })
-                  .bindPopup(`${category} ${type}`)
+                  .bindPopup(
+                    `category:${
+                      category === undefined ? 'None' : CATEGORY_NAMES[category]
+                    }<br\>${type}`
+                  )
                   .addTo(map);
                 highlightedMarkers.push(marker);
               });
 
               console.log(vectors);
-              setTimeout(() => pieChart(name, vectors), 500);
+              setTimeout(() => {
+                pieChart(name, vectors);
+                const px = map.project(e.popup._latlng);
+                px.y -= 265;
+                map.panTo(map.unproject(px), { animate: true });
+              }, 500);
             })
         );
       });
@@ -165,7 +174,7 @@ const initMap = () => {
       .map(([p1, p2]) => {
         return L.polyline([p1, p2], { color: 'black', weight: 1 });
       });
-    const voronoiGroup = L.layerGroup(voronoiLayers).addTo(map);
+    const voronoiGroup = L.layerGroup(voronoiLayers);
 
     return [stopGroup, voronoiGroup];
   };
@@ -174,37 +183,41 @@ const initMap = () => {
 
   const allNodesHandler = res => {
     const data = res.data;
-    const restaurants = data
-      .filter(({ tags }) => tags['amenity'] === 'restaurant')
-      .map(({ lat, lon }) => [lat, lon, 1]);
+    const heatMaps = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map(cat => {
+      const subData = data
+        .filter(({ category }) => category === cat)
+        .map(({ lat, lon }) => [lat, lon, 1]);
 
-    const restaurantHeatMap = L.heatLayer(restaurants, {
-      radius: 50,
-      max: 1,
-      gradient: cmap,
-      minOpacity: 0.5,
-      blur: 25
+      const heatMap = L.heatLayer(subData, {
+        radius: 25,
+        max: 1,
+        gradient: cmap,
+        minOpacity: 0.7,
+        blur: 25
+      });
+
+      return heatMap;
     });
 
-    return [restaurantHeatMap];
+    return heatMaps;
   };
 
   Promise.all([stopPromise, allNodesPromise, relationPromise, categoriesPromise]).then(
     ([stopRes, allNodesRes, relationRes, categoriesRes]) => {
       allNodesRes.data.forEach(o => (o['category'] = categoriesRes.data[o['type']]));
-      const [restaurantHeatMap] = allNodesHandler(allNodesRes);
+      const heatMaps = allNodesHandler(allNodesRes);
       const [stopGroup, voronoiGroup] = stopsHandler(
         stopRes,
         allNodesRes.data,
         relationRes.data
       );
-      L.control
-        .layers(null, {
-          Stops: stopGroup,
-          'Voronoi Boundaries': voronoiGroup,
-          'Heat Map': restaurantHeatMap
-        })
-        .addTo(map);
+
+      const opt = {
+        Stops: stopGroup,
+        'Voronoi Boundaries': voronoiGroup
+      };
+      heatMaps.forEach((hm, i) => (opt[CATEGORY_NAMES[i]] = hm));
+      L.control.layers(null, opt).addTo(map);
     }
   );
 };
