@@ -4,6 +4,7 @@ import numpy as np
 
 SPLIT = re.compile(r'^\d+,(.*);(\d*)$')
 TAG_FORMAT = re.compile(r'^(amenity|leisure|tourism|shop):[\w \-;:.,]+$')
+SUBTYPE = re.compile(r'.*:(.*)')
 
 
 def tags_sanity():
@@ -63,6 +64,8 @@ def sanity():
         raise ValueError(s)
     if list(range(1, 15)) != sorted(list(c)):
         print(c)
+    print(' '.join([SUBTYPE.match(t)[1] for t in full_types]))
+    print(len(full_types))
 
     with open('../datasets/categories.json', 'w') as f:
         json.dump(d, f)
