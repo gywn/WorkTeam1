@@ -29,10 +29,9 @@ const initMap = () => {
     maxZoom: MAX_ZOOM,
     center: [INIT_LATITUDE, INIT_LONGITUDE],
     zoom: 14,
-    editable: true
+    editable: true,
+    preferCanvas: true
   });
-  const icon = L.divIcon({ className: 'icon' });
-  const icon2 = L.divIcon({ className: 'icon-2' });
 
   var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   var osm = new L.TileLayer(osmUrl, {
@@ -128,8 +127,11 @@ const initMap = () => {
         avgLat += lat;
         avgLng += lon;
         stopLayers.push(
-          L.marker(new L.LatLng(lat, lon), {
-            icon: icon,
+          L.circleMarker(new L.LatLng(lat, lon), {
+            color: '#ee7203',
+            radius: 6,
+            weight: 1,
+            fillOpacity: 0.6,
             keyboard: false,
             id: id,
             title: name
@@ -144,8 +146,11 @@ const initMap = () => {
                 if (category !== undefined) {
                   vectors[category] += 1;
                 }
-                const marker = L.marker(new L.LatLng(lat, lon), {
-                  icon: icon2,
+                const marker = L.circleMarker(new L.LatLng(lat, lon), {
+                  color: '#0000ff',
+                  radius: 6,
+                  weight: 1,
+                  fillOpacity: 0.6,
                   keyboard: false
                 })
                   .bindPopup(
