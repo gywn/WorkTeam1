@@ -43,6 +43,12 @@ const initMap = () => {
   map.addLayer(osm);
   map.setView(new L.LatLng(INIT_LATITUDE, INIT_LONGITUDE));
 
+  L.controlCredits({
+    image: 'http://hackathon.nextiteration.de/wp-content/uploads/2018/02/hackathon2.jpg',
+    link: 'http://hackathon.nextiteration.de/',
+    text: 'Hack.Data.KI.Bots'
+  }).addTo(map);
+
   const stopPromise = axios.get('../datasets/haltestellen.json');
   const allNodesPromise = axios.get('../datasets/all_nodes.json');
   const relationPromise = axios.get(

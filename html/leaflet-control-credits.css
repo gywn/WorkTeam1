@@ -1,0 +1,29 @@
+.leaflet-credits-control {
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+  padding-right: 200px; /* defined in the JavaScript code */
+  height: 60px;        /* defined in the JavaScript code */
+  border: 4px solid rgba(0, 0, 0, .1);
+  border-radius: 5px;
+  background-color: white;
+  background-image: none; /* defined in the JavaScript code */
+  background-position: 100% 0;
+  background-size: 200px;
+  background-repeat: no-repeat;
+  opacity: .90;
+  cursor: pointer;
+}
+.leaflet-credits-control a {
+  display: none; /* becomes visible on mouse hover, see creditsControl */
+  color: #333 !important;
+  text-align: right;
+  text-decoration: none;
+  font-size: 8pt;
+}
+.leaflet-credits-control a.leaflet-credits-showlink {
+  display: inline-block;
+  margin-top: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+  line-height: 15px;
+}
